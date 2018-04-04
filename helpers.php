@@ -53,6 +53,10 @@ class KirbyGitHelper
                     kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
                     'git could not be found or is not working properly. ' . Git::get_bin()
                 );
+                f::write(
+                    kirby()->roots()->index() .'/log/gcapc-' . time() . '.txt',
+                    'git could not be found or is not working properly. ' . Git::get_bin()
+                );
             }
         }
     }
@@ -104,6 +108,10 @@ class KirbyGitHelper
             if (c::get('debug', false)) {
                 f::write(
                     kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
+                    'Unable to update git: ' . $exception->getMessage()
+                );
+                f::write(
+                    kirby()->roots()->index() .'/log/gcapc-' . time() . '.txt',
                     'Unable to update git: ' . $exception->getMessage()
                 );
             }
