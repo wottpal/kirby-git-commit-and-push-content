@@ -14,15 +14,11 @@ class KirbyGitHelper
     public function __construct($repoPath = false)
     {
         $this->repoPath = $repoPath ? $repoPath : c::get('gcapc-path', kirby()->roots()->content());
-        $this->branch = c::get('gcapc-branch', '');
+        $this->branch = c::get('gcapc-branch', 'master');
     }
 
     private function initRepo()
     {
-        if ($this->repo) {
-            return true;
-        }
-
         if (!class_exists("Git")) {
             if (file_exists(__DIR__ . DS . 'Git.php' . DS. 'Git.php')) {
                 require __DIR__ . DS . 'Git.php' . DS. 'Git.php';
@@ -52,7 +48,12 @@ class KirbyGitHelper
         $this->repo = Git::open($this->repoPath);
 
         if (!$this->repo->test_git()) {
-            trigger_error('git could not be found or is not working properly. ' . Git::get_bin());
+            if (c::get('debug', false)) {
+                f::write(
+                    kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
+                    'git could not be found or is not working properly. ' . Git::get_bin()
+                );
+            }
         }
     }
 
@@ -86,8 +87,6 @@ class KirbyGitHelper
     public function kirbyChange($commitMessage)
     {
         try {
-            $this->initRepo();
-
             if ($this->branch) {
               $this->getRepo()->checkout($this->branch);
             }
@@ -102,7 +101,12 @@ class KirbyGitHelper
                 $this->push();
             }
         } catch(Exception $exception) {
-            trigger_error('Unable to update git: ' . $exception->getMessage());
+            if (c::get('debug', false)) {
+                f::write(
+                    kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
+                    'Unable to update git: ' . $exception->getMessage()
+                );
+            }
         }
     }
 }
