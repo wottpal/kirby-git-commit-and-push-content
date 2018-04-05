@@ -48,7 +48,7 @@ class KirbyGitHelper
         $this->repo = Git::open($this->repoPath);
 
         if (!$this->repo->test_git()) {
-            if (c::get('debug', false)) {
+            if (c::get('gcapc-debug', false)) {
                 f::write(
                     kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
                     'git could not be found or is not working properly. ' . Git::get_bin()
@@ -101,7 +101,7 @@ class KirbyGitHelper
                 $this->push();
             }
         } catch(Exception $exception) {
-            if (c::get('debug', false)) {
+            if (c::get('gcapc-debug', false)) {
                 f::write(
                     kirby()->roots()->index() .'/log-gcapc-' . time() . '.txt',
                     'Unable to update git: ' . $exception->getMessage()

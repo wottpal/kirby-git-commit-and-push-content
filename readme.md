@@ -2,6 +2,11 @@
 
 This is a plugin for [Kirby](http://getkirby.com/) that Commits and Pushes Changes made via the Panel to your Git Repository.
 
+## What's different in my fork
+
+* Enable user-hooks with `gcapc-user-hooks-enabled`
+* Enable debugging with `gcapc-debug`
+
 ## Usage
 
 Just keep using the Panel as you are used to and watch the commits appear in your git repository!
@@ -19,7 +24,7 @@ Remove the `content/` folder from your current git repository
 git rm --cached -r content
 git add -A
 git commit -m "Move Content Folder to separate repository"
-``` 
+```
 
 Add the `content/` folder to new git repository
 
@@ -79,6 +84,12 @@ You can use the following [Options](http://getkirby.com/docs/advanced/options) -
 (In case you need to use multiple git users on your environment - [Multiple SSH Keys settings for different github account](https://gist.github.com/jexchan/2351996))
 
 If you do not want to Pull and/or Push on every change you can also call `yourdomain.com/gcapc/push` or `yourdomain.com/gcapc/pull` manually (or automated with e.g. a cronjob).
+
+#### gcapc-debug
+Type: `Boolean`
+Default value: `false`
+
+log warnings/errors into the projects root `/log-gcapc-{timestamp}.txt`
 
 #### gcapc-path
 Type: `String`
